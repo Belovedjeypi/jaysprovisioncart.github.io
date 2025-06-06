@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - J's Provision Cart</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    .login, .dashboard { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .dashboard { display: none; }
+    input, select { width: 100%; padding: 8px; margin-bottom: 10px; }
+    button { background-color: #007bff; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+    .inventory-item { border-top: 1px solid #ccc; padding-top: 10px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="login" id="login">
+    <h2>Admin Login</h2>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div class="dashboard" id="dashboard">
+    <h2>Inventory Management</h2>
+    <input id="name" placeholder="Item Name">
+    <input id="unit" placeholder="Unit (pcs, bottle, etc.)">
+    <input id="cost" placeholder="Cost per Unit (₱)" type="number">
+    <input id="price" placeholder="Selling Price (₱)" type="number">
+    <input id="quantity" placeholder="Quantity" type="number">
+    <select id="category">
+      <option>Dairy</option>
+      <option>Canned Goods</option>
+      <option>Beverages</option>
+      <option>Others</option>
+    </select>
+    <button onclick="addItem()">Add to Inventory</button>
+
+    <h3>Current Inventory</h3>
+    <div id="inventory"></div>
+  </div>
+
+  <script>
+    const PASSWORD = "JPC20011925";
+
+    function login() {
+      const input = document.getElementById('password').value;
+      if (input === PASSWORD) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+      } else {
+        alert('Incorrect password.');
+      }
+    }
+
+    function addItem() {
+      const name = document.getElementById('name').value;
+      const unit = document.getElementById('unit').value;
+      const cost = parseFloat(document.getElementById('cost').value);
+      const price = parseFloat(document.getElementById('price').value);
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const category = document.getElementById('category').value;
+
+      const profit = (price - cost) * quantity;
+
+      const html = `
+        <div class="inventory-item">
+          <strong>${name}</strong><br>
+          Category: ${category}<br>
+          Unit: ${unit} | Cost: ₱${cost} | Price: ₱${price}<br>
+          Quantity: ${quantity}<br>
+          Estimated Profit: ₱${profit}
+        </div>
+      `;
+      document.getElementById('inventory').innerHTML += html;
+    }
+  </script>
+</body>
+</html>
